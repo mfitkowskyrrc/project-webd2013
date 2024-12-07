@@ -1,0 +1,98 @@
+header{
+    display: flex;
+    background-color: lightgrey;
+}
+#headercontent{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding: 15px;
+}
+#headercontent h1{
+    font-size: 4em;
+    margin: 1px auto;
+    padding: 5px;
+    flex-basis: 80%;
+    
+}
+#headercontent h2{
+    font-size: 2em;
+    margin: 1px auto;
+    padding: 5px;
+    flex-basis: 19%;
+}
+
+body {
+    background: darkgreen;
+}
+label {
+    display: block;
+}
+
+#menu li {
+    display: inline;
+}
+#menu li a {
+    border: 1px solid grey;
+    padding: 5px 10px;
+}
+#wrapper {
+    width: 80%;
+    margin: 10px auto;
+    text-align: left;
+    border: 1px solid grey;
+    padding: 20px;
+    background: #EEEEEE;
+}
+#books {
+    margin: auto;
+    border: 1px solid grey;
+    padding: 5px 10px;
+}
+#books h1 {
+    font-size: xx-large;
+    text-align: center;
+    
+}
+#books table tbody tr th {
+    font-size: x-large;
+    padding: 15px;
+    margin: auto;
+    text-align: center;
+}
+#books table tbody tr td {
+    font-size: large;
+    padding: 10px 15px;
+    margin: auto;
+}
+
+#description {
+    padding: 10px;
+    font-size: large;
+}
+#storeinfo {
+    display: flex;
+    justify-content: space-between;
+    font-size: large;
+    font-weight: bold;
+}
+#hours {
+    flex-basis: 30%;
+    padding:5px;
+    margin: auto;
+}
+#hours table, th, td {
+    margin: 1px auto;
+    padding: 5px;
+    border:1px solid;
+}
+#location {
+    flex-basis: 70%;
+    padding:5px;
+    margin: auto;
+}
+#location h1 {
+    margin: auto;
+    padding: 5px
+}
