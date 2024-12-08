@@ -159,19 +159,29 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
             </div>
         </header>
         <ul id="menu">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="books.php">Books</a></li>
+            <li><a href="index.php" class='active'>Home</a></li>
+            <li><a href="books.php">All Books</a></li>
+            <li><a href="books.php?search=&searchtype=1">Paperbacks</a></li>
+            <li><a href="books.php?search=&searchtype=2">Hardcovers</a></li>
+            <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
+            <?php if ($_COOKIE['loggedin'] == 0 ): ?>
+                <li><a href="login.php">Log In</a></li>
+            <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
+                <li><a href="login.php?logout=1">Log Out</a></li>
+            <?php endif ?>
+            <?php if (($_COOKIE['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
-
-                <div id="searchboxtop">
-                    <form action="books.php" method="get">
-                        <label for="search">Search For Book: </label>
-                        <input type="text" id="search" name="search" maxlength="255" minlength="1" size="15" value="<?php if(isset($_GET['search'])) {echo $_GET['search'];} ?>">
-                        <input type="hidden" name="searchtype" value="0">
-                        <input type="submit"  value="Search">
-                    </form>
-                </div>
+            <?php endif ?>
+            <div id="searchboxtop">
+                <form action="books.php" method="get">
+                    <label for="search">Search For Book: </label>
+                    <input type="text" id="search" name="search" maxlength="255" minlength="1" size="15" value="<?php if(isset($_GET['search'])) {echo $_GET['search'];} ?>">
+                    <input type="hidden" name="searchtype" value="0">
+                    <input type="submit"  value="Search">
+                </form>
+            </div>
         </ul>
+
 
         <!--check to see if user requested deletion-->
         <?php if(!isset($_POST['delete'])): ?>

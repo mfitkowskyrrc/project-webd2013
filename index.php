@@ -15,6 +15,7 @@ if (!isset($_COOKIE['loggedin'])) {
 
         setcookie('admin', 0, $sixty_minutes_from_now);
         setcookie('loggedin', 0, $sixty_minutes_from_now);
+        setcookie('logout', 0, $sixty_minutes_from_now);
 
         header("location: index.php");
         exit();
@@ -52,7 +53,10 @@ $books = $statement->fetchAll();
             <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
             <?php if ($_COOKIE['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
-            <?php elseif (($_COOKIE['admin'] == 1)): ?>
+            <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
+                <li><a href="login.php?logout=1">Log Out</a></li>
+            <?php endif ?>
+            <?php if (($_COOKIE['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
             <?php endif ?>
             <div id="searchboxtop">
@@ -63,7 +67,8 @@ $books = $statement->fetchAll();
                     <input type="submit"  value="Search">
                 </form>
             </div>
-        </ul>   
+        </ul>
+
         <content>
             <div id="description">
                 <p><b>Nestled in the heart of Winnipeg, Books-R-Us is a cozy, family-owned bookstore that celebrates the magic of reading.</b></p>

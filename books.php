@@ -25,11 +25,11 @@ if (isset($_GET['search'])) {
     $searchtype = $_GET['searchtype'];
 
     if ($searchtype > 0) {
-        $searchQuery = "SELECT * FROM books WHERE title LIKE CONCAT('%',:search,'%') OR author LIKE CONCAT('%',:search,'%') AND category = :searchtype";
+        $searchQuery = "SELECT * FROM books WHERE title LIKE CONCAT('%',:search,'%') AND category = :searchtype OR author LIKE CONCAT('%',:search,'%') AND category = :searchtype";
         $searchStatement = $db->prepare($searchQuery);
         $searchStatement->bindValue(':search', $search);
         $searchStatement->bindValue(':searchtype', $searchtype);
-    } else {
+    } elseif ($searchtype == 0) {
         $searchQuery = "SELECT * FROM books WHERE title LIKE CONCAT('%',:search,'%') OR author LIKE CONCAT('%',:search,'%')";
         $searchStatement = $db->prepare($searchQuery);
         $searchStatement->bindValue(':search', $search);
@@ -77,7 +77,10 @@ if (isset($_GET['sort']) && !isset(($GET['search']))){
             <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
             <?php if ($_COOKIE['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
-            <?php elseif (($_COOKIE['admin'] == 1)): ?>
+            <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
+                <li><a href="login.php?logout=1">Log Out</a></li>
+            <?php endif ?>
+            <?php if (($_COOKIE['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
             <?php endif ?>
             <div id="searchboxtop">
@@ -88,7 +91,8 @@ if (isset($_GET['sort']) && !isset(($GET['search']))){
                     <input type="submit"  value="Search">
                 </form>
             </div>
-        </ul>        
+        </ul>
+  
         <content>
             <div id="books">
                 <h1>Our Entire Selection of Books
@@ -134,7 +138,7 @@ if (isset($_GET['sort']) && !isset(($GET['search']))){
                             <td><a href="book.php?id=<?=$book['bookId']?> "> <?=$book['title']?> </a></td>
                             <td><?=$book['author']?></td>
                             <td><?=$categories[$book['category']-1]['name']?></td>
-                            <td><?=$book['price']?></td>
+                            <td>$ <?=$book['price']?></td>
                         </tr>
                     <?php endforeach ?>
                 </table>

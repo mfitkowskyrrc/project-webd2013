@@ -10,16 +10,19 @@
 
 require('connect.php');
 
-$username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$password = filter_input(INPUT_GET, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$password1 = filter_input(INPUT_POST, 'password1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-$query = "SELECT * FROM users WHERE username ='$username'";
-$statement = $db->prepare($query);
 
-if ($_COOKIE['logout'] == 1 ) {
-    setcookie('loggedin', False);
-    setcookie('admin', False);
+if (isset($_POST['register'])) {
+    $query = "INSERT INTO users (username, password) values (:username, :password)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':username', $username);
+    $statement->bindValue(':password', $password1);
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +32,7 @@ if ($_COOKIE['logout'] == 1 ) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Books-R-Us Login</title>
+    <title>Users</title>
 </head>
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
@@ -65,40 +68,35 @@ if ($_COOKIE['logout'] == 1 ) {
         </ul>
 
 
-        <?php if(isset($_GET['username']) && isset($_GET['password'])): ?>
-            <?php if (strlen($_GET['username']) == 0 && strlen($_GET['password']) == 0): ?>
-                <h1>You must enter a username</h1>
-            <?php else: ?>
-                <?php $statement->execute() ?>
-                <?php $users = $statement->fetch() ?>
+        
 
-                <?php if ( strcmp($users['username'], $username) == 0 ): ?>
-                    <?php if ( strcmp($users['password'], $password) == 0 ): ?>
-                        <?php setcookie('loggedin', True) ?>                        
-                        <h1>You have been logged in</h1>
-                        <?php if ($users['admin'] == 1): ?>
-                            <h2>Admin User Verified.</h2>
-                            <h2>Go to <a href="admin.php">Admin Dashboard</a></h2>
-                            <?php setcookie('admin', True) ?>
-                        <?php endif ?>
-                    <?php elseif ( strcmp($users['password'], $password) == 1 ): ?>
-                        <h1>Incorrect Login Details, Try Again</h1>
-                    <?php endif ?>
-                <?php endif ?>
-            <?php endif ?>
-        <?php endif ?>
-
-
-        <form action="login.php" method="get">
-            <label for="username">Username: </label>
+        
+        <form action="register.php" method="POST">
+            <input type="hidden" name="register" id="register">
+            <label for="username">Desired Username: </label>
             <input type="text" id="username" name="username" maxlength="52" minlength="1" size="50">
 
-            <label for="password">Password: </label>
-            <input type="text" id="password" name="password" maxlength="52" minlength="1" size="50">
+            <label for="password">Enter Password: </label>
+            <input type="password" id="password1" name="password1" maxlength="52" minlength="1" size="50">
+            <label for="password">Confirm Password: </label>
+            <input type="password" id="password2" name="password2" maxlength="52" minlength="1" size="50">
 
             <input type="submit" value="Submit">
         </form>
-        <p>Don't have an account? Register <a href="register.php">Here</a></p>
+        <p>Have an account? Log In <a href="login.php">Here</a></p>
+
+        <?php if(isset($_POST['username']) && isset($_POST['password1']) && isset($_POST['password2'])): ?>
+            <?php if (strlen($_POST['username']) == 0): ?>
+                <h1>You must enter a username</h1>
+            <?php elseif (strlen($_POST['password1']) == 0): ?>
+                <h1>You must enter a password</h1>
+            <?php elseif (strcmp($_POST['password1'], $_POST['password2']) == 1 ): ?>
+                <h1>Your passwords must match</h1>
+            <?php elseif (strlen($_POST['username']) > 0 && strcmp($_POST['password1'], $_POST['password2']) == 0 ): ?>
+                <?php $statement->execute() ?>
+                <?php header('location: register.php') ?>
+            <?php endif ?>
+        <?php endif ?>
     </div> <!-- End div "wrapper" -->
 </body>
 </html>
