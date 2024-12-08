@@ -55,6 +55,9 @@ $book = $statement->fetch();
             </div>
         </ul>   
         <div id="books">
+            <?php if ($book['image'] !== null): ?>
+                <img src="images/<?=$book['image']?>">
+            <?php endif ?>
             <table id="book">
                 <tr>
                     <td>Title: </td>

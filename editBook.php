@@ -9,6 +9,56 @@
 ****************/
 
 require('connect.php');
+require 'scripts\ImageResize.php';
+require 'scripts\ImageResizeException.php';
+
+function file_upload_path($original_filename, $upload_subfolder_name = 'images') {
+    $current_folder = dirname(__FILE__);
+    $path_segments = [$current_folder, $upload_subfolder_name, basename($original_filename)];
+    return join(DIRECTORY_SEPARATOR, $path_segments);
+    }
+
+function file_is_an_image($temporary_path, $new_path) {
+    $allowed_mime_types      = ['image/gif', 'image/jpeg', 'image/png'];
+    $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
+
+    $actual_file_extension   = pathinfo($new_path, PATHINFO_EXTENSION);
+    $actual_mime_type        = mime_content_type($temporary_path);
+
+    $file_extension_is_valid = in_array($actual_file_extension, $allowed_file_extensions);
+    $mime_type_is_valid      = in_array($actual_mime_type, $allowed_mime_types);
+
+    return $file_extension_is_valid && $mime_type_is_valid;
+    }
+
+
+function resize_image($new_image_path) {
+    $image = new \Gumlet\ImageResize($new_image_path);
+    $image->resizeToWidth(200);
+    $image->save($new_image_path);
+}
+
+$image_upload_detected = isset($_FILES['image']) && ($_FILES['image']['error'] === 0);
+
+if ($image_upload_detected) {
+        $image_filename       = $_FILES['image']['name'];
+        $temporary_image_path = $_FILES['image']['tmp_name'];
+        $new_image_path       = file_upload_path($image_filename);
+
+    if (file_is_an_image($temporary_image_path, $new_image_path)) {
+        move_uploaded_file($temporary_image_path, $new_image_path);
+        resize_image($new_image_path);
+
+        $bookId = filter_input(INPUT_GET, 'bookId', FILTER_SANITIZE_NUMBER_INT);
+
+        $imageQuery = "UPDATE books SET image = :image_filename WHERE bookId = $bookId";
+        $imageStatement = $db->prepare($imageQuery);
+        $imageStatement->bindValue(':image_filename', $image_filename);
+        $imageStatement->execute();
+
+    }
+}
+
 $query2 = "SELECT * FROM categories ORDER BY id";
 $statement2 = $db->prepare($query2);
 $statement2->execute();
@@ -30,6 +80,7 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
     $price = $book['price'];
     $category = $book['category'];
     $description = $book['description'];
+    $image = $book['image'];
     
 
     if (isset($_POST['delete'])) {
@@ -37,6 +88,15 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
         $delete_statement = $db->prepare($delete_query);
         $delete_statement->execute();
         
+    }
+
+    if (isset($_POST['deleteImage'])) {
+        $delete_query = "UPDATE books SET image = null WHERE bookId = $bookId";
+        $delete_statement = $db->prepare($delete_query);
+        $delete_statement->execute();
+        
+        unlink('images/'.$image);
+
     }
 
     if(isset($_GET['submitted'])) {
@@ -157,6 +217,21 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
             <form method="post" id="delete">
                 <button type="submit" name="delete" id="delete">Delete This Book</button>
             </form>
+            <div>
+                <form id="imageupload" action="editBook.php?bookId=<?=$_GET['bookId']?>" method="post" enctype="multipart/form-data">
+                    <label for="image">Upload An Image For This Book</label>
+                    <input type="file" name="image" id="image">
+                    <input type="submit" name="submit" value="Upload">
+                </form>
+            </div>
+            <?php if ($image !== null): ?>
+                <div>
+                    <form method="post" id="deleteImage">
+                    <button type="submit" name="deleteImage" id="deleteImage">Delete Image For This Book</button>
+                </form>
+                </div>
+            <?php endif?>
+            
         <?php else: ?>
             <ul id="menu">
                 <li><a href="index.php" class='active'>Home</a></li>
