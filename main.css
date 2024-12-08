@@ -29,10 +29,24 @@ body {
 label {
     display: block;
 }
-
+#menu {
+    display: flex;
+    justify-content: center;
+}
+#menu div{ 
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    border: 1px solid grey;
+    justify-content: right;
+}
+#menu div form{
+    padding: 5px;
+}
 #menu li {
-    display: inline;
-    font-size: xx-large;
+    display: flex;
+    font-size: large;
     font-weight: bolder;
 }
 #menu li a {
@@ -118,4 +132,9 @@ label {
 #location h1 {
     margin: auto;
     padding: 5px
+}
+#delete{
+    display: flex;
+    padding: 5px;
+    justify-content: right;
 }

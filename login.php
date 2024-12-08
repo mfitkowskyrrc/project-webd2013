@@ -40,13 +40,24 @@ $statement = $db->prepare($query);
         </header>
         <ul id="menu">
             <li><a href="index.php" class='active'>Home</a></li>
-            <li><a href="books.php">Books</a></li>
-            <?php if ($_COOKIE['loggedin'] == 0): ?>
+            <li><a href="books.php">All Books</a></li>
+            <li><a href="books.php?search=&searchtype=1">Paperbacks</a></li>
+            <li><a href="books.php?search=&searchtype=2">Hardcovers</a></li>
+            <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
+            <?php if ($_COOKIE['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
             <?php elseif (($_COOKIE['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
             <?php endif ?>
-        </ul> 
+            <div id="searchboxtop">
+                <form action="books.php" method="get">
+                    <label for="search">Search For Book: </label>
+                    <input type="text" id="search" name="search" maxlength="255" minlength="1" size="15" value="<?php if(isset($_GET['search'])) {echo $_GET['search'];} ?>">
+                    <input type="hidden" name="searchtype" value="0">
+                    <input type="submit"  value="Search">
+                </form>
+            </div>
+        </ul>   
 
         <?php if(isset($_GET['username']) && isset($_GET['password'])): ?>
             <?php if (strlen($_GET['username']) == 0 && strlen($_GET['password']) == 0): ?>

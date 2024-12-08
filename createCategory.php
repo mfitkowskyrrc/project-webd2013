@@ -47,7 +47,7 @@ if (isset($_POST['delete'])) {
                 <li><a href="books.php">Books</a></li>
                 <li><a href="admin.php">Admin Dashboard</a></li>
                 <li><a href="createBook.php">Add Book</a></li>
-                <li><a href="createCategory.php">Add Category</a></li>
+                <li><a href="createCategory.php">Edit Categories</a></li>
             </ul>
 
             <?php if(isset($_GET['name'])): ?>

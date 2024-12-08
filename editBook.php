@@ -98,15 +98,22 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
                 <h2>Your Source For Premium, Pre-Loved Books</h2>
             </div>
         </header>
-        <ul id="menu">
-            <li><a href="index.php" class='active'>Home</a></li>
-            <li><a href="books.php">Books</a></li>
-            <?php if ($_COOKIE['loggedin'] == 0): ?>
-                <li><a href="login.php">Log In</a></li>
-            <?php elseif (($_COOKIE['admin'] == 1)): ?>
+         <ul id="menu">
+                <li><a href="index.php">Home</a></li>
+                <li><a href="books.php">Books</a></li>
                 <li><a href="admin.php">Admin Dashboard</a></li>
-            <?php endif ?>
-        </ul> 
+                <li><a href="createBook.php">Add Book</a></li>
+                <li><a href="createCategory.php">Edit Categories</a></li>
+                <div id="searchboxtop">
+                <form action="books.php" method="get">
+                    <label for="search">Search For Book: </label>
+                    <input type="text" id="search" name="search" maxlength="255" minlength="1" size="15" value="<?php if(isset($_GET['search'])) {echo $_GET['search'];} ?>">
+                    <input type="hidden" name="searchtype" value="0">
+                    <input type="submit"  value="Search">
+                </form>
+            </div>
+        </ul>
+
         <!--check to see if user requested deletion-->
         <?php if(!isset($_POST['delete'])): ?>
 
@@ -144,9 +151,10 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
 
                 <label for="description">Description: </label>
                 <textarea id="description" name="description"  rows="20" cols="110" maxlength="1500" minlength="1"><?=$description?></textarea>
-                <input type="submit" value="Submit">
+                <br>
+                <input type="submit" value="Submit"> 
             </form>
-            <form method="post">
+            <form method="post" id="delete">
                 <button type="submit" name="delete" id="delete">Delete This Book</button>
             </form>
         <?php else: ?>
