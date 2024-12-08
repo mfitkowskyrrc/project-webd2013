@@ -54,7 +54,8 @@ $books = $statement->fetchAll();
             <?php if ($_COOKIE['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
             <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
-                <li><a href="login.php?logout=1">Log Out</a></li>
+                <?php setcookie('logout', 1)?>
+                <li><a href="login.php">Log Out</a></li>
             <?php endif ?>
             <?php if (($_COOKIE['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
@@ -111,17 +112,14 @@ $books = $statement->fetchAll();
                             <td>Saturday </td>
                             <td>05:00 - 13:00 </td>
                         </tr>
-                        
                     </table>
                 </div>
                 <div id="location">
-                    <h1>Located in the underground shopping center at Portage & Main</h1>
-                    <h1>*Google Maps API insert here*</h1>
+                    <iframe width="700" height="300" src="https://www.openstreetmap.org/export/embed.html?bbox=-97.14072704315187%2C49.89472251683677%2C-97.13684320449829%2C49.896325947226536&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/49.895524/-97.138785">View Larger Map</a></small>
                 </div>
             </div>
-
+            <h1 id="locatedat">Located in the underground shopping center at Portage & Main</h1>
         </content>
-        
     </div> <!-- End div "wrapper" -->
 
 </body>

@@ -29,9 +29,14 @@ body {
 label {
     display: block;
 }
+a{
+    text-decoration: none;
+}
 #menu {
+    margin-top: -5px;
     display: flex;
     justify-content: center;
+    background-color: lightgrey;
 }
 #menu div{ 
     font-size: large;
@@ -45,13 +50,17 @@ label {
     padding: 5px;
 }
 #menu li {
+    align-items: center;
     display: flex;
-    font-size: large;
+    font-size: 20px;
     font-weight: bolder;
 }
 #menu li a {
     border: 1px solid grey;
-    padding: 5px 10px;
+    padding: 15px 10px;
+}
+#menu li a:hover{
+    background-color: lightgreen;
 }
 #wrapper {
     width: 1100px;
@@ -73,14 +82,14 @@ label {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 10px;
+    padding: 10px 0px;
 }
 #searchbox form label{
     padding: 5px 15px 5px 15px;
 }
 #books {
     margin: auto;
-    border: 3px solid grey;
+    border: 1px solid grey;
     padding: 5px 10px;
 }
 #books img {
@@ -96,7 +105,7 @@ label {
 #books table {
     width: 95%;
     margin: auto;
-
+    border-spacing: 0px;
 }
 #books table tbody tr th {
     font-size: x-large;
@@ -108,15 +117,20 @@ label {
     font-size: large;
     padding: 10px 15px;
     margin: auto;
+    text-align: center;
 }
 
 #description {
+    width: 90%;
+    margin: auto;
     padding: 10px;
     font-size: large;
 }
+
 #storeinfo {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     font-size: large;
     font-weight: bold;
 }
@@ -128,7 +142,7 @@ label {
 #hours table, th, td {
     margin: 1px auto;
     padding: 5px;
-    border:3px solid grey;
+    border:2px solid grey;
 }
 #location {
     flex-basis: 70%;
@@ -138,6 +152,10 @@ label {
 #location h1 {
     margin: auto;
     padding: 5px
+}
+#location iframe {
+    margin-left: auto;
+    margin-right: auto ;
 }
 #delete{
     display: flex;
@@ -155,4 +173,8 @@ label {
 #submits {
     display: flex;
     padding: 15px 0px;
+}
+#locatedat {
+    text-align: center;
+
 }

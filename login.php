@@ -17,8 +17,12 @@ $query = "SELECT * FROM users WHERE username ='$username'";
 $statement = $db->prepare($query);
 
 if ($_COOKIE['logout'] == 1 ) {
+    setcookie('logout', 0);
     setcookie('loggedin', False);
     setcookie('admin', False);
+
+    header('location: login.php');
+    exit();
 }
 ?>
 
