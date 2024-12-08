@@ -149,3 +149,10 @@ label {
     padding: 5px;
     justify-content: right;
 }
+#users form label{
+    padding: 10px 0px;
+}
+#submits {
+    display: flex;
+    padding: 15px 0px;
+}

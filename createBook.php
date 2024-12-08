@@ -52,10 +52,16 @@ $statement->bindValue(':category', $category);
                 <li><a href="index.php">Home</a></li>
                 <li><a href="books.php">Books</a></li>
                 <li><a href="admin.php">Admin Dashboard</a></li>
-                <li><a href="createBook.php">Add Book</a></li>
-                <li><a href="createCategory.php">Edit Categories</a></li>
-            </ul>
 
+                <div id="searchboxtop">
+                    <form action="books.php" method="get">
+                        <label for="search">Search For Book: </label>
+                        <input type="text" id="search" name="search" maxlength="255" minlength="1" size="15" value="<?php if(isset($_GET['search'])) {echo $_GET['search'];} ?>">
+                        <input type="hidden" name="searchtype" value="0">
+                        <input type="submit"  value="Search">
+                    </form>
+                </div>
+            </ul>
             <?php if(isset($_GET['title'])): ?>
                 <?php if (strlen($_GET['title']) == 0): ?>
                     <h1>You must enter a title</h1>
