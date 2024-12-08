@@ -33,7 +33,7 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
     
 
     if (isset($_POST['delete'])) {
-        $delete_query = "DELETE FROM posts WHERE bookId = {$bookId}";
+        $delete_query = "DELETE FROM books WHERE bookId = {$bookId}";
         $delete_statement = $db->prepare($delete_query);
         $delete_statement->execute();
         
@@ -144,8 +144,10 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
 
                 <label for="description">Description: </label>
                 <textarea id="description" name="description"  rows="20" cols="110" maxlength="1500" minlength="1"><?=$description?></textarea>
-
                 <input type="submit" value="Submit">
+            </form>
+            <form method="post">
+                <button type="submit" name="delete" id="delete">Delete This Book</button>
             </form>
         <?php else: ?>
             <ul id="menu">

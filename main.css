@@ -32,36 +32,56 @@ label {
 
 #menu li {
     display: inline;
+    font-size: xx-large;
+    font-weight: bolder;
 }
 #menu li a {
     border: 1px solid grey;
     padding: 5px 10px;
 }
 #wrapper {
-    width: 80%;
+    width: 1100px;
     margin: 10px auto;
     text-align: left;
     border: 1px solid grey;
     padding: 20px;
     background: #EEEEEE;
 }
-#searchbox {
+#searchbox{
+    margin:auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#searchbox form{
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     padding: 10px;
+}
+#searchbox form label{
+    padding: 5px 15px 5px 15px;
 }
 #books {
     margin: auto;
-    border: 1px solid grey;
+    border: 2px solid grey;
     padding: 5px 10px;
 }
 #books h1 {
     font-size: xx-large;
     text-align: center;
-    
+}
+#books table {
+    width: 95%;
+    margin: auto;
+
 }
 #books table tbody tr th {
     font-size: x-large;
-    padding: 15px;
-    margin: auto;
+    padding: 5px 10px;
+    margin: 1px auto;
     text-align: center;
 }
 #books table tbody tr td {
