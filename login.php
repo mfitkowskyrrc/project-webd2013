@@ -37,9 +37,6 @@ $statement = $db->prepare($query);
                 <h1>Welcome To Books-R-Us!</h1>
                 <h2>Your Source For Premium, Pre-Loved Books</h2>
             </div>
-            <div id='adminlogin'>
-                <a href="admin.php">Admin</a>
-            </div>
         </header>
         <ul id="menu">
             <li><a href="index.php" class='active'>Home</a></li>

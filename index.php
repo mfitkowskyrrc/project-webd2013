@@ -10,11 +10,14 @@
 
 require('connect.php');
 
-$twenty_minutes_from_now = time() + 1200;
-
 if (!isset($_COOKIE['loggedin'])) {
-        setcookie('admin', False, $twenty_minutes_from_now);
-        setcookie('loggedin', False, $twenty_minutes_from_now);
+        $sixty_minutes_from_now = time() + 3600;
+
+        setcookie('admin', 0, $sixty_minutes_from_now);
+        setcookie('loggedin', 0, $sixty_minutes_from_now);
+
+        header("location: index.php");
+        exit();
     } 
 
 //obtain posts from database "posts"
@@ -44,7 +47,7 @@ $books = $statement->fetchAll();
         <ul id="menu">
             <li><a href="index.php" class='active'>Home</a></li>
             <li><a href="books.php">Books</a></li>
-            <?php if ($_COOKIE['loggedin'] == 0): ?>
+            <?php if ($_COOKIE['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
             <?php elseif (($_COOKIE['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
