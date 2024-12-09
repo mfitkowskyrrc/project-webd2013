@@ -29,6 +29,9 @@ if (isset($_GET['title'])){
     $statement->bindValue(':price', $price);
     $statement->bindValue(':description', $description);
     $statement->bindValue(':category', $category);
+
+    header("Location: book.php?id=admin");
+    exit;
 }
 
 ?>

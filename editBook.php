@@ -86,8 +86,7 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
     if (isset($_POST['delete'])) {
         $delete_query = "DELETE FROM books WHERE bookId = {$bookId}";
         $delete_statement = $db->prepare($delete_query);
-        $delete_statement->execute();
-        
+        $delete_statement->execute();        
     }
 
     if (isset($_POST['deleteImage'])) {
@@ -96,7 +95,6 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
         $delete_statement->execute();
         
         unlink('images/'.$image);
-
     }
 
     if(isset($_GET['submitted'])) {

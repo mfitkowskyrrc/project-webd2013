@@ -19,6 +19,9 @@ if (isset($_POST['delete'])) {
         $delete_query = "DELETE FROM categories WHERE id = {$_POST['category']}";
         $delete_statement = $db->prepare($delete_query);
         $delete_statement->execute();
+
+        header("Location: book.php?id=admin");
+        exit;
         
     }
 ?>
