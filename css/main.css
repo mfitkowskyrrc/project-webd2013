@@ -119,6 +119,24 @@ a{
     margin: auto;
     text-align: center;
 }
+#comments{
+    width: 95%;
+    margin: auto;
+    border-spacing: 0px;
+}
+#comments tbody tr th {
+    background-color: lightgrey;
+    font-size: x-large;
+    padding: 5px 10px;
+    margin: 1px auto;
+    text-align: center;
+}
+#comments tbody tr td {
+    font-size: large;
+    padding: 10px 15px;
+    margin: auto;
+    text-align: center;
+}
 
 #description {
     width: 90%;
@@ -177,4 +195,10 @@ a{
 #locatedat {
     text-align: center;
 
+}
+#enterComment form {
+    display: flex;
+}
+#enterComment form label{
+    padding: 10px 5px;
 }

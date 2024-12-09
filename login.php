@@ -7,8 +7,9 @@
     Description: Project
 
 ****************/
-
+session_start();
 require('connect.php');
+
 
 $username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $password = filter_input(INPUT_GET, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -18,8 +19,9 @@ $statement = $db->prepare($query);
 
 if ($_COOKIE['logout'] == 1 ) {
     setcookie('logout', 0);
-    setcookie('loggedin', False);
-    setcookie('admin', False);
+    setcookie('loggedin', 0);
+    setcookie('admin', 0);
+    $_SESSION['username'] = null;
 
     header('location: login.php');
     exit();
@@ -36,7 +38,6 @@ if ($_COOKIE['logout'] == 1 ) {
     <title>Books-R-Us Login</title>
 </head>
 <body>
-    <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id="wrapper">
         <header>
             <div id='headercontent'> 
@@ -78,7 +79,8 @@ if ($_COOKIE['logout'] == 1 ) {
 
                 <?php if ( strcmp($users['username'], $username) == 0 ): ?>
                     <?php if ( strcmp($users['password'], $password) == 0 ): ?>
-                        <?php setcookie('loggedin', True) ?>                        
+                        <?php setcookie('loggedin', True) ?>
+                        <?php $_SESSION['username'] = $username ?>                        
                         <h1>You have been logged in</h1>
                         <?php if ($users['admin'] == 1): ?>
                             <h2>Admin User Verified.</h2>
