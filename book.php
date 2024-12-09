@@ -50,6 +50,18 @@ if (isset($_POST['deleteComment'])) {
     header("Location: book.php?id=".$_POST['bookId']);
     exit;
 }
+if (isset($_POST['holdPlaced'])) {
+    $bookId = $_POST['bookId'];
+    $username = $_POST['username'];
+
+    $query = "INSERT INTO bookholds (bookId, username) VALUES ($bookId, :username)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(":username", $username);
+    $statement->execute();
+
+    header("Location: book.php?id=".$_POST['bookId']);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +137,8 @@ if (isset($_POST['deleteComment'])) {
                             <?php endif ?>  
                         </td>
                         <td>
-                             <form method='get' action='Book.php?id=<?=$book['bookId']?> '>
+                             <form method='post' action='Book.php?id=<?=$book['bookId']?> '>
+                                <input type="hidden" name="holdPlaced" id="holdPlaced">
                                 <input type="hidden" name="bookId" value=<?=$book['bookId']?> >
                                 <input type="hidden" name="username" id="username" value=<?=$_SESSION['username']?> >
                                 <input type="submit" value="Place Hold">
