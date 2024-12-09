@@ -104,7 +104,7 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
         $update_author = filter_input(INPUT_GET, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $update_price = filter_input(INPUT_GET, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $update_category = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
-        $update_description = filter_input(INPUT_GET, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $update_description = $_GET['description']; //turned off sanitization for WYSIWYG html formatting
 
         //check if title or content are too < 1 char
         if(strlen($update_title) < 1) {
@@ -148,6 +148,13 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/main.css">
     <title>Editing Book!</title>
+    <script src="https://cdn.tiny.cloud/1/q987xmo40tga76u7h0gxfrpwx4gzyxjcx99mlj7mactva36i/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: 'textarea'
+      });
+    </script>
+
 </head>
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
@@ -240,13 +247,9 @@ if (is_int(filter_input(INPUT_GET,'bookId', FILTER_VALIDATE_INT))){
                 </form>
                 </div>
             <?php endif?>
-            
+        <?php elseif (isset($_POST['delete'])): ?>
+            <h1>Book Successfully Deleted</h1>
         <?php else: ?>
-            <ul id="menu">
-                <li><a href="index.php" class='active'>Home</a></li>
-                <li><a href="books.php">Books</a></li>
-                <li><a href="login.php">Log In</a></li>
-            </ul>
             <h1>You Must Log As An Admin In To Access This Page</h1>
         <?php endif ?>
         </div>

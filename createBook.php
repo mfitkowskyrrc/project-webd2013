@@ -15,19 +15,22 @@ $statement2 = $db->prepare($query2);
 $statement2->execute();
 $categories = $statement2->fetchAll();
 
-$title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$author = filter_input(INPUT_GET, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$price = filter_input(INPUT_GET, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-$description = filter_input(INPUT_GET, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$category =filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+if (isset($_GET['title'])){
+    $title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $author = filter_input(INPUT_GET, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $price = filter_input(INPUT_GET, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $description = $_GET['description'];
+    $category =filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-$query = "INSERT INTO books (title, author, price, description, category) values (:title, :author, :price, :description, :category)";
-$statement = $db->prepare($query);
-$statement->bindValue(':title', $title);
-$statement->bindValue(':author', $author);
-$statement->bindValue(':price', $price);
-$statement->bindValue(':description', $description);
-$statement->bindValue(':category', $category);
+    $query = "INSERT INTO books (title, author, price, description, category) values (:title, :author, :price, :description, :category)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':author', $author);
+    $statement->bindValue(':price', $price);
+    $statement->bindValue(':description', $description);
+    $statement->bindValue(':category', $category);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,16 +41,23 @@ $statement->bindValue(':category', $category);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/main.css">
     <title>Books-R-Us</title>
+    <script src="https://cdn.tiny.cloud/1/q987xmo40tga76u7h0gxfrpwx4gzyxjcx99mlj7mactva36i/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: 'textarea'
+      });
+    </script>
 </head>
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id="wrapper">
         <header>
-            <h1>Create Book</h1>
+            <div id='headercontent'> 
+                <h1>Welcome To Books-R-Us!</h1>
+                <h2>Your Source For Premium, Pre-Loved Books</h2>
+            </div>
         </header>
-
         <?php if (isset($_COOKIE['admin']) && $_COOKIE['admin'] == True): ?>
-
         <ul id="menu">
             <li><a href="index.php" class='active'>Home</a></li>
             <li><a href="books.php">All Books</a></li>
