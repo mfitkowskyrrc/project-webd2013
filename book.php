@@ -39,6 +39,17 @@ if (isset($_POST['addComment'])) {
     header("Location: book.php?id=".$_POST['bookId']);
     exit;
 }
+if (isset($_POST['deleteComment'])) {
+    $commentId = $_POST['commentId'];
+
+    $query = "DELETE FROM comments WHERE commentId = $commentId";
+    $statement = $db->prepare($query);
+    $statement->execute();
+
+    $_POST['deleteComment'] = null;
+    header("Location: book.php?id=".$_POST['bookId']);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -123,18 +134,30 @@ if (isset($_POST['addComment'])) {
             <tr>
                 <th>User</th>
                 <th>Comment</th>
+                <?php if ($_SESSION['admin'] == 1): ?>
+                    <th> </th>
+                <?php endif ?>
             </tr>
         <?php foreach ($comments as $comment): ?>
             <tr>
                 <td><?=$comment['username']?></td>
                 <td><?=$comment['comment']?></td>
+                <?php if ($_SESSION['admin'] == 1): ?>
+                    <th>
+                        <form method='POST' action='book.php?id=<?=$book['bookId']?>'>
+                            <input type="hidden" name="bookId" value =<?=$book['bookId']?>>
+                            <input type="hidden" name="commentId" value=<?=$comment['commentId']?>>
+                            <input type="submit" name="deleteComment" id="deleteComment" value="Delete Comment">
+                        </form>
+                    </th>
+                <?php endif ?>
             </tr>
         <?php endforeach ?>
         </table>
-        <?php if (($_SESSION['loggedin'] == 1)): ?>
+        <?php if ($_SESSION['loggedin'] == 1): ?>
             <h2>Leave a Comment</h2>
             <div id="enterComment">
-                <form method='POST' action='Book.php?id=<?=$book['bookId']?>'>
+                <form method='POST' action='book.php?id=<?=$book['bookId']?>'>
                     <input type="hidden" name="bookId" value=<?=$book['bookId']?>>
                     <input type="hidden" name="addComment" value='1'>
                     <input type="hidden" name="username" value='<?=$_SESSION['username']?>'>
