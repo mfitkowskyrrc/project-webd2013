@@ -113,18 +113,26 @@ if (isset($_POST['deleteComment'])) {
                 <tr>
                     <td><b>Description: </b></td>
                     <td><?=$book['description'] ?></td>
-                </tr>  
-            <?php if (($_SESSION['admin'] == 1)): ?>
-            <tr>
-                <td>
-                    <form method='get' action='editBook.php?id=<?=$book['bookId']?>'>
-                        <input type="hidden" name="bookId" value=<?=$book['bookId']?>>
-                        <input type="submit" value="Edit This Book">
-                    </form> 
-                </td>
-                <td></td>
-            </tr>
-            <?php endif ?> 
+                </tr>
+                <?php if (($_SESSION['loggedin'] == 1)): ?>
+                    <tr>
+                        <td>
+                            <?php if (($_SESSION['admin'] == 1)): ?>
+                                <form method='get' action='editBook.php?id=<?=$book['bookId']?>' >
+                                    <input type="hidden" name="bookId" value=<?=$book['bookId']?> >
+                                    <input type="submit" value="Edit This Book">
+                                </form>
+                            <?php endif ?>  
+                        </td>
+                        <td>
+                             <form method='get' action='Book.php?id=<?=$book['bookId']?> '>
+                                <input type="hidden" name="bookId" value=<?=$book['bookId']?> >
+                                <input type="hidden" name="username" id="username" value=<?=$_SESSION['username']?> >
+                                <input type="submit" value="Place Hold">
+                            </form>
+                        </td>
+                    </tr>
+                <?php endif ?>
             </table> 
         </div> 
         
@@ -168,7 +176,6 @@ if (isset($_POST['deleteComment'])) {
                 </form> 
             </div>
         <?php endif ?>      
-    </div>
-     
+    </div>   
 </body>
 </html>
