@@ -139,11 +139,6 @@ if (isset($_POST['update'])) {
             
                 
         <?php else: ?>
-            <ul id="menu">
-                <li><a href="index.php" class='active'>Home</a></li>
-                <li><a href="books.php">Books</a></li>
-                <li><a href="login.php">Log In</a></li>
-            </ul>
             <h1>You Must Log As An Admin In To Access This Page</h1>
         <?php endif ?>
         </div>
