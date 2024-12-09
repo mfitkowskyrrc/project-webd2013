@@ -54,7 +54,7 @@ if (isset($_POST['holdPlaced'])) {
     $bookId = $_POST['bookId'];
     $username = $_POST['username'];
 
-    $query = "INSERT INTO bookholds (bookId, username) VALUES ($bookId, :username)";
+    $query = "INSERT INTO holds (bookId, username) VALUES ($bookId, :username)";
     $statement = $db->prepare($query);
     $statement->bindValue(":username", $username);
     $statement->execute();

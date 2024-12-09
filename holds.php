@@ -10,10 +10,21 @@
 session_start();
 require('connect.php');
 
-$query = "SELECT * FROM books";
+$query = "SELECT * FROM holds";
 $statement = $db->prepare($query);
 $statement->execute();
-$books = $statement->fetchAll();
+$holds = $statement->fetchAll();
+
+if (isset($_POST['delete'])) {
+        $holdId = filter_input(INPUT_POST,'holdId', FILTER_SANITIZE_NUMBER_INT);
+        
+        $delete_query = "DELETE FROM holds WHERE holdId = $holdId";
+        $delete_statement = $db->prepare($delete_query);
+        $delete_statement->execute();
+
+        header('location: holds.php');
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +34,10 @@ $books = $statement->fetchAll();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/main.css">
-    <title>Books-R-Us Admin</title>
+    <title>holds</title>
 </head>
 <body>
+    <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id="wrapper">
         <header>
             <div id='headercontent'> 
@@ -57,20 +69,36 @@ $books = $statement->fetchAll();
                 </form>
             </div>
         </ul>
-            <body>
-                <div id="description">
-                    <h1>Welcome to the Admin Dashboard</h1>
-                </div>
-                <ul>
-                    <li><a href="createBook.php" >Add Book</a></li>
-                    <li><a href="createCategory.php" >View / Modify Category</a></li>
-                    <li><a href="users.php" >View / Modify Users</a></li>
-                    <li><a href="holds.php" >View / Modify Holds</a></li>
-                </ul>
-            </body>
+            <table>
+                <tr>
+                    <th>Hold ID</th>
+                    <th>Book ID</th>
+                    <th>Username</th>
+                    <th>Date Placed</th>
+                </tr>
+                <?php foreach ($holds as $hold): ?>
+                    <tr>
+                        <td><?=$hold['holdId']?> </td>
+                        <td><?=$hold['bookId']?> </a></td>
+                        <td><?=$hold['username']?> </td>
+                        <td><?=$hold['dateplaced']?> </td>
+                    </tr>
+                <?php endforeach ?>
+            </table>
+            <div id='users'>
+                <form action="holds.php" method="post">
+                    <h1>Delete a Hold</h1>
+                    <label for="holdId">Hold ID: </label>
+                    <input type="text" name="holdId" id="holdId">
+                    <div id="submits">
+                        <input type="submit" name="delete" id="delete" value="Delete"></input>
+                    </div>
+                </form>
+            </div>
         <?php else: ?>
             <h1>You Must Log As An Admin In To Access This Page</h1>
         <?php endif ?>
-    </div> 
+        </div>
+    </div> <!-- End div "wrapper" -->
 </body>
 </html>
