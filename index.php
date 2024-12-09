@@ -7,18 +7,16 @@
     Description: Project
 
 ****************/
-
+session_start();
 require('connect.php');
 
-if (!isset($_COOKIE['loggedin'])) {
-        $sixty_minutes_from_now = time() + 3600;
+if (!isset($_SESSION['loggedin'])) {
+    $_SESSION['loggedin'] = 0;
+    $_SESSION['admin'] = 0;
+    $_SESSION['username'] = null;
 
-        setcookie('admin', 0, $sixty_minutes_from_now);
-        setcookie('loggedin', 0, $sixty_minutes_from_now);
-        setcookie('logout', 0, $sixty_minutes_from_now);
-
-        header("location: index.php");
-        exit();
+    header("location: index.php");
+    exit();
     } 
 
 //obtain posts from database "posts"
@@ -51,13 +49,12 @@ $books = $statement->fetchAll();
             <li><a href="books.php?search=&searchtype=1">Paperbacks</a></li>
             <li><a href="books.php?search=&searchtype=2">Hardcovers</a></li>
             <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
-            <?php if ($_COOKIE['loggedin'] == 0 ): ?>
+            <?php if ($_SESSION['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
-            <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
-                <?php setcookie('logout', 1)?>
-                <li><a href="login.php">Log Out</a></li>
+            <?php elseif ($_SESSION['loggedin'] == 1 ): ?>
+                <li><a href="login.php?logout=logout">Log Out</a></li>
             <?php endif ?>
-            <?php if (($_COOKIE['admin'] == 1)): ?>
+            <?php if (($_SESSION['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
             <?php endif ?>
             <div id="searchboxtop">

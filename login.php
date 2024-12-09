@@ -17,10 +17,10 @@ $password = filter_input(INPUT_GET, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHA
 $query = "SELECT * FROM users WHERE username ='$username'";
 $statement = $db->prepare($query);
 
-if ($_COOKIE['logout'] == 1 ) {
-    setcookie('logout', 0);
-    setcookie('loggedin', 0);
-    setcookie('admin', 0);
+if (isset($_GET['logout'])) {
+    $_SESSION['logout'] = 0;
+    $_SESSION['loggedin'] = 0;
+    $_SESSION['admin'] = 0;
     $_SESSION['username'] = null;
 
     header('location: login.php');
@@ -46,17 +46,17 @@ if ($_COOKIE['logout'] == 1 ) {
             </div>
         </header>
         <ul id="menu">
-            <li><a href="index.php" class='active'>Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li><a href="books.php">All Books</a></li>
             <li><a href="books.php?search=&searchtype=1">Paperbacks</a></li>
             <li><a href="books.php?search=&searchtype=2">Hardcovers</a></li>
             <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
-            <?php if ($_COOKIE['loggedin'] == 0 ): ?>
+            <?php if ($_SESSION['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
-            <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
-                <li><a href="login.php?logout=1">Log Out</a></li>
+            <?php elseif ($_SESSION['loggedin'] == 1 ): ?>
+                <li><a href="login.php?logout=logout">Log Out</a></li>
             <?php endif ?>
-            <?php if (($_COOKIE['admin'] == 1)): ?>
+            <?php if (($_SESSION['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
             <?php endif ?>
             <div id="searchboxtop">
@@ -79,13 +79,13 @@ if ($_COOKIE['logout'] == 1 ) {
 
                 <?php if ( strcmp($users['username'], $username) == 0 ): ?>
                     <?php if ( strcmp($users['password'], $password) == 0 ): ?>
-                        <?php setcookie('loggedin', True) ?>
+                        <?php $_SESSION['loggedin'] = 1 ?>
                         <?php $_SESSION['username'] = $username ?>                        
                         <h1>You have been logged in</h1>
                         <?php if ($users['admin'] == 1): ?>
                             <h2>Admin User Verified.</h2>
                             <h2>Go to <a href="admin.php">Admin Dashboard</a></h2>
-                            <?php setcookie('admin', True) ?>
+                            <?php $_SESSION['admin'] = 1 ?>
                         <?php endif ?>
                     <?php elseif ( strcmp($users['password'], $password) == 1 ): ?>
                         <h1>Incorrect Login Details, Try Again</h1>

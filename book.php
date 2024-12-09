@@ -20,7 +20,7 @@ $statement = $db->prepare($query);
 $statement->execute();
 $users = $statement->fetchAll();
 
-$query = "SELECT * FROM comments WHERE bookId = {$_GET['id']} ORDER BY created";
+$query = "SELECT * FROM comments WHERE bookId = {$_GET['id']} ORDER BY created DESC";
 $statement = $db->prepare($query);
 $statement->execute();
 $comments = $statement->fetchAll();
@@ -36,7 +36,7 @@ if (isset($_POST['addComment'])) {
     $statement->execute();
 
     $_POST['addComment'] = null;
-    header("Location: ".$_SERVER['PHP_SELF']);
+    header("Location: book.php?id=".$_POST['bookId']);
     exit;
 }
 ?>
@@ -64,12 +64,12 @@ if (isset($_POST['addComment'])) {
             <li><a href="books.php?search=&searchtype=1">Paperbacks</a></li>
             <li><a href="books.php?search=&searchtype=2">Hardcovers</a></li>
             <li><a href="books.php?search=&searchtype=3">Audiobooks</a></li>
-            <?php if ($_COOKIE['loggedin'] == 0 ): ?>
+            <?php if ($_SESSION['loggedin'] == 0 ): ?>
                 <li><a href="login.php">Log In</a></li>
-            <?php elseif ($_COOKIE['loggedin'] == 1 ): ?>
-                <li><a href="login.php?logout=1">Log Out</a></li>
+            <?php elseif ($_SESSION['loggedin'] == 1 ): ?>
+                <li><a href="login.php?logout=logout">Log Out</a></li>
             <?php endif ?>
-            <?php if (($_COOKIE['admin'] == 1)): ?>
+            <?php if (($_SESSION['admin'] == 1)): ?>
                 <li><a href="admin.php">Admin Dashboard</a></li>
             <?php endif ?>
             <div id="searchboxtop">
@@ -103,7 +103,7 @@ if (isset($_POST['addComment'])) {
                     <td><b>Description: </b></td>
                     <td><?=$book['description'] ?></td>
                 </tr>  
-            <?php if (($_COOKIE['admin'] == 1)): ?>
+            <?php if (($_SESSION['admin'] == 1)): ?>
             <tr>
                 <td>
                     <form method='get' action='editBook.php?id=<?=$book['bookId']?>'>
@@ -131,7 +131,7 @@ if (isset($_POST['addComment'])) {
             </tr>
         <?php endforeach ?>
         </table>
-        <?php if (($_COOKIE['loggedin'] == 1)): ?>
+        <?php if (($_SESSION['loggedin'] == 1)): ?>
             <h2>Leave a Comment</h2>
             <div id="enterComment">
                 <form method='POST' action='Book.php?id=<?=$book['bookId']?>'>
