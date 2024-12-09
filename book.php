@@ -137,7 +137,7 @@ if (isset($_POST['holdPlaced'])) {
                             <?php endif ?>  
                         </td>
                         <td>
-                             <form method='post' action='Book.php?id=<?=$book['bookId']?> '>
+                             <form method='post' action='book.php?id=<?=$book['bookId']?> '>
                                 <input type="hidden" name="holdPlaced" id="holdPlaced">
                                 <input type="hidden" name="bookId" value=<?=$book['bookId']?> >
                                 <input type="hidden" name="username" id="username" value=<?=$_SESSION['username']?> >
