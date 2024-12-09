@@ -20,7 +20,7 @@ if (isset($_POST['delete'])) {
         $delete_statement = $db->prepare($delete_query);
         $delete_statement->execute();
 
-        header("Location: book.php?id=admin");
+        header("Location: createCategory.php");
         exit;
         
     }
@@ -81,6 +81,8 @@ if (isset($_POST['delete'])) {
                     $statement->execute() ?>
                     <h1>Your category has been created</h1>
                     <?php $_GET['name'] = '' ?>
+                    <?php header("Location: createCategory.php")?>
+                    <?php exit ?>
                 <?php endif ?>
             <?php endif ?>
             <form method="post">
